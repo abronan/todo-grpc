@@ -47,8 +47,8 @@ type Todo struct {
 	Title       string `protobuf:"bytes,2,opt,name=title" json:"title,omitempty"`
 	Description string `protobuf:"bytes,3,opt,name=description" json:"description,omitempty"`
 	Completed   string `protobuf:"bytes,4,opt,name=completed" json:"completed,omitempty"`
-	// @inject_tag: sql:"type:timestamptz,default:now()" sql:",notnull,-"
-	CreatedAt *google_protobuf1.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt" json:"created_at,omitempty" sql:"type:timestamptz,default:now()" sql:",notnull,-"`
+	// @inject_tag: sql:"type:timestamptz,default:now()"
+	CreatedAt *google_protobuf1.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt" json:"created_at,omitempty" sql:"type:timestamptz,default:now()"`
 	// @inject_tag: sql:"type:timestamptz"
 	UpdatedAt *google_protobuf1.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" sql:"type:timestamptz"`
 }
