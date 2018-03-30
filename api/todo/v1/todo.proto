@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package todo.v1;
+
+option go_package = "todo";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+service TodoService {
+	rpc CreateTodo(CreateTodoRequest) returns (CreateTodoResponse) {
+		option (google.api.http) ={
+			post: "/v1/todo"
+			body: "item"
+		};
+	}
+
+	rpc GetTodo(GetTodoRequest) returns (GetTodoResponse) {
+		option (google.api.http) ={
+			get: "/v1/todo/{id}"
+		};
+	}
+
+	rpc DeleteTodo(DeleteTodoRequest) returns (DeleteTodoResponse) {
+		option (google.api.http) ={
+			delete: "/v1/todo/{id}"
+		};
+	}
+
+	rpc UpdateTodo(UpdateTodoRequest) returns (UpdateTodoResponse) {
+		option (google.api.http) ={
+			put: "/v1/todo"
+			body: "item"
+		};
+	}
+}
+
+message Todo {
+	string id = 1;
+	string title = 2;
+	string description = 3;
+	string completed = 4;
+
+	// @inject_tag: sql:"type:timestamptz,default:now()" sql:",notnull,-"
+	google.protobuf.Timestamp created_at = 5;
+
+	// @inject_tag: sql:"type:timestamptz"
+	google.protobuf.Timestamp updated_at = 6;
+}
+
+message CreateTodoRequest {
+	Todo item = 1;
+}
+
+message CreateTodoResponse {
+	string id = 1;
+}
+
+message GetTodoRequest {
+	string id = 1;
+}
+
+message GetTodoResponse {
+	Todo item = 1;
+}
+
+message DeleteTodoRequest {
+	string id = 1;
+}
+
+message DeleteTodoResponse {}
+
+message UpdateTodoRequest {
+	Todo item = 1;
+}
+
+message UpdateTodoResponse {}

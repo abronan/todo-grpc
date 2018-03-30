@@ -1,0 +1,1576 @@
+file {
+  name: "google/api/http.proto"
+  package: "google.api"
+  message_type {
+    name: "Http"
+    field {
+      name: "rules"
+      number: 1
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.api.HttpRule"
+      json_name: "rules"
+    }
+  }
+  message_type {
+    name: "HttpRule"
+    field {
+      name: "selector"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "selector"
+    }
+    field {
+      name: "get"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      oneof_index: 0
+      json_name: "get"
+    }
+    field {
+      name: "put"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      oneof_index: 0
+      json_name: "put"
+    }
+    field {
+      name: "post"
+      number: 4
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      oneof_index: 0
+      json_name: "post"
+    }
+    field {
+      name: "delete"
+      number: 5
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      oneof_index: 0
+      json_name: "delete"
+    }
+    field {
+      name: "patch"
+      number: 6
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      oneof_index: 0
+      json_name: "patch"
+    }
+    field {
+      name: "custom"
+      number: 8
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".google.api.CustomHttpPattern"
+      oneof_index: 0
+      json_name: "custom"
+    }
+    field {
+      name: "body"
+      number: 7
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "body"
+    }
+    field {
+      name: "additional_bindings"
+      number: 11
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.api.HttpRule"
+      json_name: "additionalBindings"
+    }
+    oneof_decl {
+      name: "pattern"
+    }
+  }
+  message_type {
+    name: "CustomHttpPattern"
+    field {
+      name: "kind"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "kind"
+    }
+    field {
+      name: "path"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "path"
+    }
+  }
+  options {
+    java_package: "com.google.api"
+    java_outer_classname: "HttpProto"
+    java_multiple_files: true
+    go_package: "google.golang.org/genproto/googleapis/api/annotations;annotations"
+    cc_enable_arenas: true
+    objc_class_prefix: "GAPI"
+  }
+  syntax: "proto3"
+}
+file {
+  name: "google/protobuf/descriptor.proto"
+  package: "google.protobuf"
+  message_type {
+    name: "FileDescriptorSet"
+    field {
+      name: "file"
+      number: 1
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.FileDescriptorProto"
+      json_name: "file"
+    }
+  }
+  message_type {
+    name: "FileDescriptorProto"
+    field {
+      name: "name"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "name"
+    }
+    field {
+      name: "package"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "package"
+    }
+    field {
+      name: "dependency"
+      number: 3
+      label: LABEL_REPEATED
+      type: TYPE_STRING
+      json_name: "dependency"
+    }
+    field {
+      name: "public_dependency"
+      number: 10
+      label: LABEL_REPEATED
+      type: TYPE_INT32
+      json_name: "publicDependency"
+    }
+    field {
+      name: "weak_dependency"
+      number: 11
+      label: LABEL_REPEATED
+      type: TYPE_INT32
+      json_name: "weakDependency"
+    }
+    field {
+      name: "message_type"
+      number: 4
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.DescriptorProto"
+      json_name: "messageType"
+    }
+    field {
+      name: "enum_type"
+      number: 5
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.EnumDescriptorProto"
+      json_name: "enumType"
+    }
+    field {
+      name: "service"
+      number: 6
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.ServiceDescriptorProto"
+      json_name: "service"
+    }
+    field {
+      name: "extension"
+      number: 7
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.FieldDescriptorProto"
+      json_name: "extension"
+    }
+    field {
+      name: "options"
+      number: 8
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.FileOptions"
+      json_name: "options"
+    }
+    field {
+      name: "source_code_info"
+      number: 9
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.SourceCodeInfo"
+      json_name: "sourceCodeInfo"
+    }
+    field {
+      name: "syntax"
+      number: 12
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "syntax"
+    }
+  }
+  message_type {
+    name: "DescriptorProto"
+    field {
+      name: "name"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "name"
+    }
+    field {
+      name: "field"
+      number: 2
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.FieldDescriptorProto"
+      json_name: "field"
+    }
+    field {
+      name: "extension"
+      number: 6
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.FieldDescriptorProto"
+      json_name: "extension"
+    }
+    field {
+      name: "nested_type"
+      number: 3
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.DescriptorProto"
+      json_name: "nestedType"
+    }
+    field {
+      name: "enum_type"
+      number: 4
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.EnumDescriptorProto"
+      json_name: "enumType"
+    }
+    field {
+      name: "extension_range"
+      number: 5
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.DescriptorProto.ExtensionRange"
+      json_name: "extensionRange"
+    }
+    field {
+      name: "oneof_decl"
+      number: 8
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.OneofDescriptorProto"
+      json_name: "oneofDecl"
+    }
+    field {
+      name: "options"
+      number: 7
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.MessageOptions"
+      json_name: "options"
+    }
+    field {
+      name: "reserved_range"
+      number: 9
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.DescriptorProto.ReservedRange"
+      json_name: "reservedRange"
+    }
+    field {
+      name: "reserved_name"
+      number: 10
+      label: LABEL_REPEATED
+      type: TYPE_STRING
+      json_name: "reservedName"
+    }
+    nested_type {
+      name: "ExtensionRange"
+      field {
+        name: "start"
+        number: 1
+        label: LABEL_OPTIONAL
+        type: TYPE_INT32
+        json_name: "start"
+      }
+      field {
+        name: "end"
+        number: 2
+        label: LABEL_OPTIONAL
+        type: TYPE_INT32
+        json_name: "end"
+      }
+      field {
+        name: "options"
+        number: 3
+        label: LABEL_OPTIONAL
+        type: TYPE_MESSAGE
+        type_name: ".google.protobuf.ExtensionRangeOptions"
+        json_name: "options"
+      }
+    }
+    nested_type {
+      name: "ReservedRange"
+      field {
+        name: "start"
+        number: 1
+        label: LABEL_OPTIONAL
+        type: TYPE_INT32
+        json_name: "start"
+      }
+      field {
+        name: "end"
+        number: 2
+        label: LABEL_OPTIONAL
+        type: TYPE_INT32
+        json_name: "end"
+      }
+    }
+  }
+  message_type {
+    name: "ExtensionRangeOptions"
+    field {
+      name: "uninterpreted_option"
+      number: 999
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.UninterpretedOption"
+      json_name: "uninterpretedOption"
+    }
+    extension_range {
+      start: 1000
+      end: 536870912
+    }
+  }
+  message_type {
+    name: "FieldDescriptorProto"
+    field {
+      name: "name"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "name"
+    }
+    field {
+      name: "number"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_INT32
+      json_name: "number"
+    }
+    field {
+      name: "label"
+      number: 4
+      label: LABEL_OPTIONAL
+      type: TYPE_ENUM
+      type_name: ".google.protobuf.FieldDescriptorProto.Label"
+      json_name: "label"
+    }
+    field {
+      name: "type"
+      number: 5
+      label: LABEL_OPTIONAL
+      type: TYPE_ENUM
+      type_name: ".google.protobuf.FieldDescriptorProto.Type"
+      json_name: "type"
+    }
+    field {
+      name: "type_name"
+      number: 6
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "typeName"
+    }
+    field {
+      name: "extendee"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "extendee"
+    }
+    field {
+      name: "default_value"
+      number: 7
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "defaultValue"
+    }
+    field {
+      name: "oneof_index"
+      number: 9
+      label: LABEL_OPTIONAL
+      type: TYPE_INT32
+      json_name: "oneofIndex"
+    }
+    field {
+      name: "json_name"
+      number: 10
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "jsonName"
+    }
+    field {
+      name: "options"
+      number: 8
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.FieldOptions"
+      json_name: "options"
+    }
+    enum_type {
+      name: "Type"
+      value {
+        name: "TYPE_DOUBLE"
+        number: 1
+      }
+      value {
+        name: "TYPE_FLOAT"
+        number: 2
+      }
+      value {
+        name: "TYPE_INT64"
+        number: 3
+      }
+      value {
+        name: "TYPE_UINT64"
+        number: 4
+      }
+      value {
+        name: "TYPE_INT32"
+        number: 5
+      }
+      value {
+        name: "TYPE_FIXED64"
+        number: 6
+      }
+      value {
+        name: "TYPE_FIXED32"
+        number: 7
+      }
+      value {
+        name: "TYPE_BOOL"
+        number: 8
+      }
+      value {
+        name: "TYPE_STRING"
+        number: 9
+      }
+      value {
+        name: "TYPE_GROUP"
+        number: 10
+      }
+      value {
+        name: "TYPE_MESSAGE"
+        number: 11
+      }
+      value {
+        name: "TYPE_BYTES"
+        number: 12
+      }
+      value {
+        name: "TYPE_UINT32"
+        number: 13
+      }
+      value {
+        name: "TYPE_ENUM"
+        number: 14
+      }
+      value {
+        name: "TYPE_SFIXED32"
+        number: 15
+      }
+      value {
+        name: "TYPE_SFIXED64"
+        number: 16
+      }
+      value {
+        name: "TYPE_SINT32"
+        number: 17
+      }
+      value {
+        name: "TYPE_SINT64"
+        number: 18
+      }
+    }
+    enum_type {
+      name: "Label"
+      value {
+        name: "LABEL_OPTIONAL"
+        number: 1
+      }
+      value {
+        name: "LABEL_REQUIRED"
+        number: 2
+      }
+      value {
+        name: "LABEL_REPEATED"
+        number: 3
+      }
+    }
+  }
+  message_type {
+    name: "OneofDescriptorProto"
+    field {
+      name: "name"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "name"
+    }
+    field {
+      name: "options"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.OneofOptions"
+      json_name: "options"
+    }
+  }
+  message_type {
+    name: "EnumDescriptorProto"
+    field {
+      name: "name"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "name"
+    }
+    field {
+      name: "value"
+      number: 2
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.EnumValueDescriptorProto"
+      json_name: "value"
+    }
+    field {
+      name: "options"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.EnumOptions"
+      json_name: "options"
+    }
+    field {
+      name: "reserved_range"
+      number: 4
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.EnumDescriptorProto.EnumReservedRange"
+      json_name: "reservedRange"
+    }
+    field {
+      name: "reserved_name"
+      number: 5
+      label: LABEL_REPEATED
+      type: TYPE_STRING
+      json_name: "reservedName"
+    }
+    nested_type {
+      name: "EnumReservedRange"
+      field {
+        name: "start"
+        number: 1
+        label: LABEL_OPTIONAL
+        type: TYPE_INT32
+        json_name: "start"
+      }
+      field {
+        name: "end"
+        number: 2
+        label: LABEL_OPTIONAL
+        type: TYPE_INT32
+        json_name: "end"
+      }
+    }
+  }
+  message_type {
+    name: "EnumValueDescriptorProto"
+    field {
+      name: "name"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "name"
+    }
+    field {
+      name: "number"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_INT32
+      json_name: "number"
+    }
+    field {
+      name: "options"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.EnumValueOptions"
+      json_name: "options"
+    }
+  }
+  message_type {
+    name: "ServiceDescriptorProto"
+    field {
+      name: "name"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "name"
+    }
+    field {
+      name: "method"
+      number: 2
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.MethodDescriptorProto"
+      json_name: "method"
+    }
+    field {
+      name: "options"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.ServiceOptions"
+      json_name: "options"
+    }
+  }
+  message_type {
+    name: "MethodDescriptorProto"
+    field {
+      name: "name"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "name"
+    }
+    field {
+      name: "input_type"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "inputType"
+    }
+    field {
+      name: "output_type"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "outputType"
+    }
+    field {
+      name: "options"
+      number: 4
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.MethodOptions"
+      json_name: "options"
+    }
+    field {
+      name: "client_streaming"
+      number: 5
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "clientStreaming"
+    }
+    field {
+      name: "server_streaming"
+      number: 6
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "serverStreaming"
+    }
+  }
+  message_type {
+    name: "FileOptions"
+    field {
+      name: "java_package"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "javaPackage"
+    }
+    field {
+      name: "java_outer_classname"
+      number: 8
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "javaOuterClassname"
+    }
+    field {
+      name: "java_multiple_files"
+      number: 10
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "javaMultipleFiles"
+    }
+    field {
+      name: "java_generate_equals_and_hash"
+      number: 20
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      options {
+        deprecated: true
+      }
+      json_name: "javaGenerateEqualsAndHash"
+    }
+    field {
+      name: "java_string_check_utf8"
+      number: 27
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "javaStringCheckUtf8"
+    }
+    field {
+      name: "optimize_for"
+      number: 9
+      label: LABEL_OPTIONAL
+      type: TYPE_ENUM
+      type_name: ".google.protobuf.FileOptions.OptimizeMode"
+      default_value: "SPEED"
+      json_name: "optimizeFor"
+    }
+    field {
+      name: "go_package"
+      number: 11
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "goPackage"
+    }
+    field {
+      name: "cc_generic_services"
+      number: 16
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "ccGenericServices"
+    }
+    field {
+      name: "java_generic_services"
+      number: 17
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "javaGenericServices"
+    }
+    field {
+      name: "py_generic_services"
+      number: 18
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "pyGenericServices"
+    }
+    field {
+      name: "php_generic_services"
+      number: 42
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "phpGenericServices"
+    }
+    field {
+      name: "deprecated"
+      number: 23
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "deprecated"
+    }
+    field {
+      name: "cc_enable_arenas"
+      number: 31
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "ccEnableArenas"
+    }
+    field {
+      name: "objc_class_prefix"
+      number: 36
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "objcClassPrefix"
+    }
+    field {
+      name: "csharp_namespace"
+      number: 37
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "csharpNamespace"
+    }
+    field {
+      name: "swift_prefix"
+      number: 39
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "swiftPrefix"
+    }
+    field {
+      name: "php_class_prefix"
+      number: 40
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "phpClassPrefix"
+    }
+    field {
+      name: "php_namespace"
+      number: 41
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "phpNamespace"
+    }
+    field {
+      name: "uninterpreted_option"
+      number: 999
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.UninterpretedOption"
+      json_name: "uninterpretedOption"
+    }
+    enum_type {
+      name: "OptimizeMode"
+      value {
+        name: "SPEED"
+        number: 1
+      }
+      value {
+        name: "CODE_SIZE"
+        number: 2
+      }
+      value {
+        name: "LITE_RUNTIME"
+        number: 3
+      }
+    }
+    extension_range {
+      start: 1000
+      end: 536870912
+    }
+    reserved_range {
+      start: 38
+      end: 39
+    }
+  }
+  message_type {
+    name: "MessageOptions"
+    field {
+      name: "message_set_wire_format"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "messageSetWireFormat"
+    }
+    field {
+      name: "no_standard_descriptor_accessor"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "noStandardDescriptorAccessor"
+    }
+    field {
+      name: "deprecated"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "deprecated"
+    }
+    field {
+      name: "map_entry"
+      number: 7
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      json_name: "mapEntry"
+    }
+    field {
+      name: "uninterpreted_option"
+      number: 999
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.UninterpretedOption"
+      json_name: "uninterpretedOption"
+    }
+    extension_range {
+      start: 1000
+      end: 536870912
+    }
+    reserved_range {
+      start: 8
+      end: 9
+    }
+    reserved_range {
+      start: 9
+      end: 10
+    }
+  }
+  message_type {
+    name: "FieldOptions"
+    field {
+      name: "ctype"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_ENUM
+      type_name: ".google.protobuf.FieldOptions.CType"
+      default_value: "STRING"
+      json_name: "ctype"
+    }
+    field {
+      name: "packed"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      json_name: "packed"
+    }
+    field {
+      name: "jstype"
+      number: 6
+      label: LABEL_OPTIONAL
+      type: TYPE_ENUM
+      type_name: ".google.protobuf.FieldOptions.JSType"
+      default_value: "JS_NORMAL"
+      json_name: "jstype"
+    }
+    field {
+      name: "lazy"
+      number: 5
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "lazy"
+    }
+    field {
+      name: "deprecated"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "deprecated"
+    }
+    field {
+      name: "weak"
+      number: 10
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "weak"
+    }
+    field {
+      name: "uninterpreted_option"
+      number: 999
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.UninterpretedOption"
+      json_name: "uninterpretedOption"
+    }
+    enum_type {
+      name: "CType"
+      value {
+        name: "STRING"
+        number: 0
+      }
+      value {
+        name: "CORD"
+        number: 1
+      }
+      value {
+        name: "STRING_PIECE"
+        number: 2
+      }
+    }
+    enum_type {
+      name: "JSType"
+      value {
+        name: "JS_NORMAL"
+        number: 0
+      }
+      value {
+        name: "JS_STRING"
+        number: 1
+      }
+      value {
+        name: "JS_NUMBER"
+        number: 2
+      }
+    }
+    extension_range {
+      start: 1000
+      end: 536870912
+    }
+    reserved_range {
+      start: 4
+      end: 5
+    }
+  }
+  message_type {
+    name: "OneofOptions"
+    field {
+      name: "uninterpreted_option"
+      number: 999
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.UninterpretedOption"
+      json_name: "uninterpretedOption"
+    }
+    extension_range {
+      start: 1000
+      end: 536870912
+    }
+  }
+  message_type {
+    name: "EnumOptions"
+    field {
+      name: "allow_alias"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      json_name: "allowAlias"
+    }
+    field {
+      name: "deprecated"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "deprecated"
+    }
+    field {
+      name: "uninterpreted_option"
+      number: 999
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.UninterpretedOption"
+      json_name: "uninterpretedOption"
+    }
+    extension_range {
+      start: 1000
+      end: 536870912
+    }
+    reserved_range {
+      start: 5
+      end: 6
+    }
+  }
+  message_type {
+    name: "EnumValueOptions"
+    field {
+      name: "deprecated"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "deprecated"
+    }
+    field {
+      name: "uninterpreted_option"
+      number: 999
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.UninterpretedOption"
+      json_name: "uninterpretedOption"
+    }
+    extension_range {
+      start: 1000
+      end: 536870912
+    }
+  }
+  message_type {
+    name: "ServiceOptions"
+    field {
+      name: "deprecated"
+      number: 33
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "deprecated"
+    }
+    field {
+      name: "uninterpreted_option"
+      number: 999
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.UninterpretedOption"
+      json_name: "uninterpretedOption"
+    }
+    extension_range {
+      start: 1000
+      end: 536870912
+    }
+  }
+  message_type {
+    name: "MethodOptions"
+    field {
+      name: "deprecated"
+      number: 33
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      default_value: "false"
+      json_name: "deprecated"
+    }
+    field {
+      name: "idempotency_level"
+      number: 34
+      label: LABEL_OPTIONAL
+      type: TYPE_ENUM
+      type_name: ".google.protobuf.MethodOptions.IdempotencyLevel"
+      default_value: "IDEMPOTENCY_UNKNOWN"
+      json_name: "idempotencyLevel"
+    }
+    field {
+      name: "uninterpreted_option"
+      number: 999
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.UninterpretedOption"
+      json_name: "uninterpretedOption"
+    }
+    enum_type {
+      name: "IdempotencyLevel"
+      value {
+        name: "IDEMPOTENCY_UNKNOWN"
+        number: 0
+      }
+      value {
+        name: "NO_SIDE_EFFECTS"
+        number: 1
+      }
+      value {
+        name: "IDEMPOTENT"
+        number: 2
+      }
+    }
+    extension_range {
+      start: 1000
+      end: 536870912
+    }
+  }
+  message_type {
+    name: "UninterpretedOption"
+    field {
+      name: "name"
+      number: 2
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.UninterpretedOption.NamePart"
+      json_name: "name"
+    }
+    field {
+      name: "identifier_value"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "identifierValue"
+    }
+    field {
+      name: "positive_int_value"
+      number: 4
+      label: LABEL_OPTIONAL
+      type: TYPE_UINT64
+      json_name: "positiveIntValue"
+    }
+    field {
+      name: "negative_int_value"
+      number: 5
+      label: LABEL_OPTIONAL
+      type: TYPE_INT64
+      json_name: "negativeIntValue"
+    }
+    field {
+      name: "double_value"
+      number: 6
+      label: LABEL_OPTIONAL
+      type: TYPE_DOUBLE
+      json_name: "doubleValue"
+    }
+    field {
+      name: "string_value"
+      number: 7
+      label: LABEL_OPTIONAL
+      type: TYPE_BYTES
+      json_name: "stringValue"
+    }
+    field {
+      name: "aggregate_value"
+      number: 8
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "aggregateValue"
+    }
+    nested_type {
+      name: "NamePart"
+      field {
+        name: "name_part"
+        number: 1
+        label: LABEL_REQUIRED
+        type: TYPE_STRING
+        json_name: "namePart"
+      }
+      field {
+        name: "is_extension"
+        number: 2
+        label: LABEL_REQUIRED
+        type: TYPE_BOOL
+        json_name: "isExtension"
+      }
+    }
+  }
+  message_type {
+    name: "SourceCodeInfo"
+    field {
+      name: "location"
+      number: 1
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.SourceCodeInfo.Location"
+      json_name: "location"
+    }
+    nested_type {
+      name: "Location"
+      field {
+        name: "path"
+        number: 1
+        label: LABEL_REPEATED
+        type: TYPE_INT32
+        options {
+          packed: true
+        }
+        json_name: "path"
+      }
+      field {
+        name: "span"
+        number: 2
+        label: LABEL_REPEATED
+        type: TYPE_INT32
+        options {
+          packed: true
+        }
+        json_name: "span"
+      }
+      field {
+        name: "leading_comments"
+        number: 3
+        label: LABEL_OPTIONAL
+        type: TYPE_STRING
+        json_name: "leadingComments"
+      }
+      field {
+        name: "trailing_comments"
+        number: 4
+        label: LABEL_OPTIONAL
+        type: TYPE_STRING
+        json_name: "trailingComments"
+      }
+      field {
+        name: "leading_detached_comments"
+        number: 6
+        label: LABEL_REPEATED
+        type: TYPE_STRING
+        json_name: "leadingDetachedComments"
+      }
+    }
+  }
+  message_type {
+    name: "GeneratedCodeInfo"
+    field {
+      name: "annotation"
+      number: 1
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.GeneratedCodeInfo.Annotation"
+      json_name: "annotation"
+    }
+    nested_type {
+      name: "Annotation"
+      field {
+        name: "path"
+        number: 1
+        label: LABEL_REPEATED
+        type: TYPE_INT32
+        options {
+          packed: true
+        }
+        json_name: "path"
+      }
+      field {
+        name: "source_file"
+        number: 2
+        label: LABEL_OPTIONAL
+        type: TYPE_STRING
+        json_name: "sourceFile"
+      }
+      field {
+        name: "begin"
+        number: 3
+        label: LABEL_OPTIONAL
+        type: TYPE_INT32
+        json_name: "begin"
+      }
+      field {
+        name: "end"
+        number: 4
+        label: LABEL_OPTIONAL
+        type: TYPE_INT32
+        json_name: "end"
+      }
+    }
+  }
+  options {
+    java_package: "com.google.protobuf"
+    java_outer_classname: "DescriptorProtos"
+    optimize_for: SPEED
+    go_package: "github.com/golang/protobuf/protoc-gen-go/descriptor;descriptor"
+    cc_enable_arenas: true
+    objc_class_prefix: "GPB"
+    csharp_namespace: "Google.Protobuf.Reflection"
+  }
+}
+file {
+  name: "google/api/annotations.proto"
+  package: "google.api"
+  dependency: "google/api/http.proto"
+  dependency: "google/protobuf/descriptor.proto"
+  extension {
+    name: "http"
+    extendee: ".google.protobuf.MethodOptions"
+    number: 72295728
+    label: LABEL_OPTIONAL
+    type: TYPE_MESSAGE
+    type_name: ".google.api.HttpRule"
+    json_name: "http"
+  }
+  options {
+    java_package: "com.google.api"
+    java_outer_classname: "AnnotationsProto"
+    java_multiple_files: true
+    go_package: "google.golang.org/genproto/googleapis/api/annotations;annotations"
+    objc_class_prefix: "GAPI"
+  }
+  syntax: "proto3"
+}
+file {
+  name: "google/protobuf/timestamp.proto"
+  package: "google.protobuf"
+  message_type {
+    name: "Timestamp"
+    field {
+      name: "seconds"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_INT64
+      json_name: "seconds"
+    }
+    field {
+      name: "nanos"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_INT32
+      json_name: "nanos"
+    }
+  }
+  options {
+    java_package: "com.google.protobuf"
+    java_outer_classname: "TimestampProto"
+    java_multiple_files: true
+    go_package: "github.com/golang/protobuf/ptypes/timestamp"
+    cc_enable_arenas: true
+    objc_class_prefix: "GPB"
+    csharp_namespace: "Google.Protobuf.WellKnownTypes"
+  }
+  syntax: "proto3"
+}
+file {
+  name: "github.com/abronan/todo-grpc/api/todo/v1/todo.proto"
+  package: "todo.v1"
+  dependency: "google/api/annotations.proto"
+  dependency: "google/protobuf/timestamp.proto"
+  message_type {
+    name: "Todo"
+    field {
+      name: "id"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "id"
+    }
+    field {
+      name: "title"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "title"
+    }
+    field {
+      name: "description"
+      number: 3
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "description"
+    }
+    field {
+      name: "completed"
+      number: 4
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "completed"
+    }
+    field {
+      name: "created_at"
+      number: 5
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.Timestamp"
+      json_name: "createdAt"
+    }
+    field {
+      name: "updated_at"
+      number: 6
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".google.protobuf.Timestamp"
+      json_name: "updatedAt"
+    }
+  }
+  message_type {
+    name: "CreateTodoRequest"
+    field {
+      name: "item"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".todo.v1.Todo"
+      json_name: "item"
+    }
+  }
+  message_type {
+    name: "CreateTodoResponse"
+    field {
+      name: "id"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "id"
+    }
+  }
+  message_type {
+    name: "GetTodoRequest"
+    field {
+      name: "id"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "id"
+    }
+  }
+  message_type {
+    name: "GetTodoResponse"
+    field {
+      name: "item"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".todo.v1.Todo"
+      json_name: "item"
+    }
+  }
+  message_type {
+    name: "DeleteTodoRequest"
+    field {
+      name: "id"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_STRING
+      json_name: "id"
+    }
+  }
+  message_type {
+    name: "DeleteTodoResponse"
+  }
+  message_type {
+    name: "UpdateTodoRequest"
+    field {
+      name: "item"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_MESSAGE
+      type_name: ".todo.v1.Todo"
+      json_name: "item"
+    }
+  }
+  message_type {
+    name: "UpdateTodoResponse"
+  }
+  service {
+    name: "TodoService"
+    method {
+      name: "CreateTodo"
+      input_type: ".todo.v1.CreateTodoRequest"
+      output_type: ".todo.v1.CreateTodoResponse"
+      options {
+        72295728 {
+          4: "/v1/todo"
+          7: "item"
+        }
+      }
+    }
+    method {
+      name: "GetTodo"
+      input_type: ".todo.v1.GetTodoRequest"
+      output_type: ".todo.v1.GetTodoResponse"
+      options {
+        72295728 {
+          2: "/v1/todo/{id}"
+        }
+      }
+    }
+    method {
+      name: "DeleteTodo"
+      input_type: ".todo.v1.DeleteTodoRequest"
+      output_type: ".todo.v1.DeleteTodoResponse"
+      options {
+        72295728 {
+          5: "/v1/todo/{id}"
+        }
+      }
+    }
+    method {
+      name: "UpdateTodo"
+      input_type: ".todo.v1.UpdateTodoRequest"
+      output_type: ".todo.v1.UpdateTodoResponse"
+      options {
+        72295728 {
+          3: "/v1/todo"
+          7: "item"
+        }
+      }
+    }
+  }
+  options {
+    go_package: "todo"
+  }
+  syntax: "proto3"
+}
