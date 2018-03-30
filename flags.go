@@ -10,13 +10,13 @@ var commonFlags = []cli.Flag{
 		Name:   "bind-http",
 		Usage:  "bind address for HTTP",
 		EnvVar: "BIND_HTTP",
-		Value:  "0.0.0.0:8080",
+		Value:  "localhost:8080",
 	},
 	cli.StringFlag{
 		Name:   "bind-grpc",
 		Usage:  "bind address for gRPC",
 		EnvVar: "BIND_GRPC",
-		Value:  "0.0.0.0:2338",
+		Value:  "localhost:2338",
 	},
 
 	// PostgresQL

@@ -20,6 +20,63 @@ lint                           run gometalinter
 build                          build the go packages
 ```
 
+## Usage
+
+```text
+NAME:
+   todo-grpc - Todo app
+
+USAGE:
+   todo-grpc [global options] command [command options] [arguments...]
+
+VERSION:
+   0.0.0
+
+COMMANDS:
+     help, h  Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --bind-http value    bind address for HTTP (default: "0.0.0.0:8080") [$BIND_HTTP]
+   --bind-grpc value    bind address for gRPC (default: "0.0.0.0:2338") [$BIND_GRPC]
+   --db-name value      database name (default: "todo") [$DB_NAME]
+   --db-user value      database username (default: "postgres") [$DB_USER]
+   --db-password value  database password [$DB_PASSWORD]
+   --db-host value      postgres host (default: "127.0.0.1") [$DB_HOST]
+   --db-port value      database port (default: 5432) [$DB_PORT]
+   --help, -h           show help
+   --version, -v        print the version
+```
+
+### Rest API
+
+- Create a new Todo:
+
+```bash
+$ curl -X POST -H "Content-Type: application/json" -d '{"title":"Test","description":"Test"}' "http://localhost:8080/v1/todo"
+{"id":"34d63bd4-56b3-4795-80d4-86e5db6fa0b5"}
+```
+
+- Get an existing Todo:
+
+```bash
+$ curl -X GET "http://localhost:8080/v1/todo/34d63bd4-56b3-4795-80d4-86e5db6fa0b5"
+{"item":{"id":"34d63bd4-56b3-4795-80d4-86e5db6fa0b5","title":"Test","description":"Test","created_at":"2018-03-30T20:13:25.291887Z"}}
+```
+
+- Update a Todo:
+
+```bash
+$ curl -X PUT -H "Content-Type: application/json" -d '{"id": "34d63bd4-56b3-4795-80d4-86e5db6fa0b5", "title":"TestBis", "description":"TestBis", "completed": "true"}' "http://localhost:8080/v1/todo"
+{}
+```
+
+- Delete a Todo:
+
+```bash
+$ curl -X DELETE "http://localhost:8080/v1/todo/34d63bd4-56b3-4795-80d4-86e5db6fa0b5"
+{}
+```
+
 ## Language/Libraries
 
 - golang

@@ -49,7 +49,10 @@ func (s Service) DeleteTodo(ctx context.Context, req *todo.DeleteTodoRequest) (*
 // UpdateTodo updates a todo item
 func (s Service) UpdateTodo(ctx context.Context, req *todo.UpdateTodoRequest) (*todo.UpdateTodoResponse, error) {
 	req.Item.UpdatedAt = types.TimestampNow()
-	_, err := s.DB.Model(req.Item).Column("title", "description", "completed", "updated_at").Update()
+	res, err := s.DB.Model(req.Item).Column("title", "description", "completed", "updated_at").Update()
+	if res.RowsAffected() == 0 {
+		return nil, grpc.Errorf(codes.NotFound, "Could not update item: not found")
+	}
 	if err != nil {
 		return nil, grpc.Errorf(codes.Internal, "Could not update item from the database: %s", err)
 	}
