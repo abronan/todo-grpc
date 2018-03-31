@@ -27,6 +27,20 @@ func (s Service) CreateTodo(ctx context.Context, req *todo.CreateTodoRequest) (*
 	return &todo.CreateTodoResponse{Id: req.Item.Id}, nil
 }
 
+// CreateTodos create todo items from a list of todo descriptions
+func (s Service) CreateTodos(ctx context.Context, req *todo.CreateTodosRequest) (*todo.CreateTodosResponse, error) {
+	var ids []string
+	for _, item := range req.Items {
+		item.Id = uuid.NewV4().String()
+		ids = append(ids, item.Id)
+	}
+	err := s.DB.Insert(&req.Items)
+	if err != nil {
+		return nil, grpc.Errorf(codes.Internal, "Could not insert item into the database: %s", err)
+	}
+	return &todo.CreateTodosResponse{Ids: ids}, nil
+}
+
 // GetTodo retrieves a todo item from its ID
 func (s Service) GetTodo(ctx context.Context, req *todo.GetTodoRequest) (*todo.GetTodoResponse, error) {
 	var item todo.Todo

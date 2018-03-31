@@ -1477,6 +1477,27 @@ file {
     }
   }
   message_type {
+    name: "CreateTodosRequest"
+    field {
+      name: "items"
+      number: 1
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".todo.v1.Todo"
+      json_name: "items"
+    }
+  }
+  message_type {
+    name: "CreateTodosResponse"
+    field {
+      name: "ids"
+      number: 1
+      label: LABEL_REPEATED
+      type: TYPE_STRING
+      json_name: "ids"
+    }
+  }
+  message_type {
     name: "GetTodoRequest"
     field {
       name: "id"
@@ -1534,6 +1555,17 @@ file {
         72295728 {
           4: "/v1/todo"
           7: "item"
+        }
+      }
+    }
+    method {
+      name: "CreateTodos"
+      input_type: ".todo.v1.CreateTodosRequest"
+      output_type: ".todo.v1.CreateTodosResponse"
+      options {
+        72295728 {
+          4: "/v1/todo/bulk"
+          7: "*"
         }
       }
     }

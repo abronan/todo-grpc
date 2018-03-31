@@ -77,6 +77,13 @@ $ curl -X DELETE "http://localhost:8080/v1/todo/34d63bd4-56b3-4795-80d4-86e5db6f
 {}
 ```
 
+- Bulk Insert Todos:
+
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"items": [{"title":"Todo_1","description":"Todo_1"},{"title":"Todo_2","description":"Todo_2"}]}' "http://localhost:8080/v1/todo/bulk"
+{"ids":["e8924469-8847-4840-ae16-21be734173f4","0db11e34-4707-4a5d-92fe-f4952213d940"]}
+```
+
 ## Language/Libraries
 
 - golang
