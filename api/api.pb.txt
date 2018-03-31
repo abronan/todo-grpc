@@ -1545,6 +1545,20 @@ file {
   message_type {
     name: "UpdateTodoResponse"
   }
+  message_type {
+    name: "UpdateTodosRequest"
+    field {
+      name: "items"
+      number: 1
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".todo.v1.Todo"
+      json_name: "items"
+    }
+  }
+  message_type {
+    name: "UpdateTodosResponse"
+  }
   service {
     name: "TodoService"
     method {
@@ -1597,6 +1611,17 @@ file {
         72295728 {
           3: "/v1/todo"
           7: "item"
+        }
+      }
+    }
+    method {
+      name: "UpdateTodos"
+      input_type: ".todo.v1.UpdateTodosRequest"
+      output_type: ".todo.v1.UpdateTodosResponse"
+      options {
+        72295728 {
+          3: "/v1/todo/bulk"
+          7: "*"
         }
       }
     }

@@ -41,6 +41,13 @@ service TodoService {
 			body: "item"
 		};
 	}
+
+	rpc UpdateTodos(UpdateTodosRequest) returns (UpdateTodosResponse) {
+		option (google.api.http) ={
+			put: "/v1/todo/bulk"
+			body: "*"
+		};
+	}
 }
 
 message Todo {
@@ -91,3 +98,9 @@ message UpdateTodoRequest {
 }
 
 message UpdateTodoResponse {}
+
+message UpdateTodosRequest {
+	repeated Todo items = 1;
+}
+
+message UpdateTodosResponse {}

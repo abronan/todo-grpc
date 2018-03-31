@@ -72,3 +72,19 @@ func (s Service) UpdateTodo(ctx context.Context, req *todo.UpdateTodoRequest) (*
 	}
 	return &todo.UpdateTodoResponse{}, nil
 }
+
+// UpdateTodos updates todo items given their respective title and description.
+func (s Service) UpdateTodos(ctx context.Context, req *todo.UpdateTodosRequest) (*todo.UpdateTodosResponse, error) {
+	time := types.TimestampNow()
+	for _, item := range req.Items {
+		item.UpdatedAt = time
+	}
+	res, err := s.DB.Model(&req.Items).Column("title", "description", "completed", "updated_at").Update()
+	if res.RowsAffected() == 0 {
+		return nil, grpc.Errorf(codes.NotFound, "Could not update item: not found")
+	}
+	if err != nil {
+		return nil, grpc.Errorf(codes.Internal, "Could not update item from the database: %s", err)
+	}
+	return &todo.UpdateTodosResponse{}, nil
+}

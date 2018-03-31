@@ -84,6 +84,12 @@ curl -X POST -H "Content-Type: application/json" -d '{"items": [{"title":"Todo_1
 {"ids":["e8924469-8847-4840-ae16-21be734173f4","0db11e34-4707-4a5d-92fe-f4952213d940"]}
 ```
 
+- Bulk Update Todos:
+
+```bash
+curl -X PUT -H "Content-Type: application/json" -d '{"items": [{"id":"e94a6d0b-953b-4dad-aecb-318f183db4c7","title":"Todo_1","description":"Todo_1","completed":"true"},{"id":"d53daa2c-e6af-45ba-b192-3e1dc443b165","title":"Todo_2","description":"Todo_2","completed":"true"}]}' "http://localhost:8080/v1/todo/bulk"
+```
+
 ## Language/Libraries
 
 - golang
