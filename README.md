@@ -4,10 +4,10 @@ Todo app with gRPC/REST with the goal of using the least amount of source code w
 
 ## Development Environment
 
-- go >= v1.9
-- git
-- gnu-make
-- grpc (libprotoc >= 3.5.0)
+- **go** >= v1.9
+- **git**
+- **grpc** (libprotoc >= 3.5.0)
+- **gnu-make**
 
 ## Setup
 
@@ -97,3 +97,14 @@ curl -X PUT -H "Content-Type: application/json" -d '{"items": [{"id":"e94a6d0b-9
 - go-grpc-middleware
 - postgresql (access through go-pg orm)
 - gRPC: Protocol buffers v3 ([documentation](https://developers.google.com/protocol-buffers/))
+
+## Author
+
+**Alexandre Beslic**
+
+- [abronan.com](https://abronan.com)
+- [@abronan](https://twitter.com/abronan)
+
+## License
+
+This work is released under the MIT license. A copy of the license is provided in the LICENSE file.
