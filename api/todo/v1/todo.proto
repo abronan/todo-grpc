@@ -54,7 +54,9 @@ message Todo {
 	string id = 1;
 	string title = 2;
 	string description = 3;
-	string completed = 4;
+
+	// @inject_tag: sql:",notnull,default:false"
+	bool completed = 4;
 
 	// @inject_tag: sql:"type:timestamptz,default:now()"
 	google.protobuf.Timestamp created_at = 5;

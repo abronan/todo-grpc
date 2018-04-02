@@ -66,7 +66,7 @@ $ curl -X GET "http://localhost:8080/v1/todo/34d63bd4-56b3-4795-80d4-86e5db6fa0b
 - Update a Todo:
 
 ```bash
-$ curl -X PUT -H "Content-Type: application/json" -d '{"id": "34d63bd4-56b3-4795-80d4-86e5db6fa0b5", "title":"TestBis", "description":"TestBis", "completed": "true"}' "http://localhost:8080/v1/todo"
+$ curl -X PUT -H "Content-Type: application/json" -d '{"id": "34d63bd4-56b3-4795-80d4-86e5db6fa0b5", "title":"TestBis", "description":"TestBis", "completed": true}' "http://localhost:8080/v1/todo"
 {}
 ```
 
@@ -87,7 +87,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"items": [{"title":"Todo_1
 - Bulk Update Todos:
 
 ```bash
-curl -X PUT -H "Content-Type: application/json" -d '{"items": [{"id":"e94a6d0b-953b-4dad-aecb-318f183db4c7","title":"Todo_1","description":"Todo_1","completed":"true"},{"id":"d53daa2c-e6af-45ba-b192-3e1dc443b165","title":"Todo_2","description":"Todo_2","completed":"true"}]}' "http://localhost:8080/v1/todo/bulk"
+curl -X PUT -H "Content-Type: application/json" -d '{"items": [{"id":"e94a6d0b-953b-4dad-aecb-318f183db4c7","title":"Todo_1","description":"Todo_1","completed":true},{"id":"d53daa2c-e6af-45ba-b192-3e1dc443b165","title":"Todo_2","description":"Todo_2","completed":true}]}' "http://localhost:8080/v1/todo/bulk"
 ```
 
 ## Language/Libraries

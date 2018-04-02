@@ -1435,7 +1435,7 @@ file {
       name: "completed"
       number: 4
       label: LABEL_OPTIONAL
-      type: TYPE_STRING
+      type: TYPE_BOOL
       json_name: "completed"
     }
     field {
