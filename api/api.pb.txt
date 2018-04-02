@@ -1519,6 +1519,34 @@ file {
     }
   }
   message_type {
+    name: "ListTodoRequest"
+    field {
+      name: "limit"
+      number: 1
+      label: LABEL_OPTIONAL
+      type: TYPE_INT32
+      json_name: "limit"
+    }
+    field {
+      name: "not_completed"
+      number: 2
+      label: LABEL_OPTIONAL
+      type: TYPE_BOOL
+      json_name: "notCompleted"
+    }
+  }
+  message_type {
+    name: "ListTodoResponse"
+    field {
+      name: "items"
+      number: 1
+      label: LABEL_REPEATED
+      type: TYPE_MESSAGE
+      type_name: ".todo.v1.Todo"
+      json_name: "items"
+    }
+  }
+  message_type {
     name: "DeleteTodoRequest"
     field {
       name: "id"
@@ -1590,6 +1618,16 @@ file {
       options {
         72295728 {
           2: "/v1/todo/{id}"
+        }
+      }
+    }
+    method {
+      name: "ListTodo"
+      input_type: ".todo.v1.ListTodoRequest"
+      output_type: ".todo.v1.ListTodoResponse"
+      options {
+        72295728 {
+          2: "/v1/todo"
         }
       }
     }

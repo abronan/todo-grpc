@@ -6,174 +6,325 @@ import (
 
 	api "github.com/abronan/todo-grpc/api/todo/v1"
 	"github.com/go-pg/pg"
+	"github.com/go-pg/pg/orm"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-var todoService *Service
+type TodoSuite struct {
+	suite.Suite
+	Todo *Service
+}
 
-func init() {
+func TestTodoTestSuite(t *testing.T) {
 	db := pg.Connect(&pg.Options{
-		User:     "postgres",
+		User:     "abronan",
 		Database: "todo",
 		Addr:     "0.0.0.0:5432",
 	})
-
-	db.CreateTable(&api.Todo{}, nil)
-	todoService = &Service{DB: db}
+	suite.Run(t, &TodoSuite{
+		Todo: &Service{DB: db},
+	})
 }
 
-func TestCreateTodo(t *testing.T) {
-	resp, err := todoService.CreateTodo(
+func (s *TodoSuite) SetupTest() {
+	s.Todo.DB.DropTable(&api.Todo{}, &orm.DropTableOptions{IfExists: true})
+	s.Todo.DB.CreateTable(&api.Todo{}, nil)
+}
+
+func (s *TodoSuite) TearDownTest() {
+	s.Todo.DB.DropTable(&api.Todo{}, &orm.DropTableOptions{IfExists: true})
+}
+
+func (s *TodoSuite) TestCreateTodo() {
+	rcreate, err := s.Todo.CreateTodo(
 		context.Background(),
 		&api.CreateTodoRequest{
 			Item: &api.Todo{
-				Title:       "todo_test",
-				Description: "this is a todo item",
+				Title:       "item_1",
+				Description: "item desc 1",
 			},
 		},
 	)
-	assert.Nil(t, err)
-	assert.NotNil(t, resp)
-	assert.NotEqual(t, resp.Id, "")
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rcreate)
+	assert.NotEqual(s.T(), rcreate.Id, "")
 }
 
-func TestCreateTodos(t *testing.T) {
-	resp, err := todoService.CreateTodos(
+func (s *TodoSuite) TestCreateTodos() {
+	rcreate, err := s.Todo.CreateTodos(
 		context.Background(),
 		&api.CreateTodosRequest{
 			Items: []*api.Todo{
 				&api.Todo{
-					Title:       "todo_test",
-					Description: "this is a todo item",
+					Title:       "item_1",
+					Description: "item desc 1",
 				},
 				&api.Todo{
-					Title:       "another_test",
-					Description: "this is another todo item",
+					Title:       "item_2",
+					Description: "item desc 2",
 				},
 			},
 		},
 	)
-	assert.Nil(t, err)
-	assert.NotNil(t, resp)
-	for _, id := range resp.Ids {
-		assert.NotEqual(t, id, "")
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rcreate)
+	for _, id := range rcreate.Ids {
+		assert.NotEqual(s.T(), id, "")
 	}
 }
 
-func TestGetTodo(t *testing.T) {
+func (s *TodoSuite) TestGetTodo() {
 	item := &api.Todo{
-		Title:       "get_test",
-		Description: "this is a todo item for testing Get",
+		Title:       "item_1",
+		Description: "item desc 1",
 	}
 
-	resp, err := todoService.CreateTodo(
+	rcreate, err := s.Todo.CreateTodo(
 		context.Background(),
 		&api.CreateTodoRequest{
 			Item: item,
 		},
 	)
-	assert.Nil(t, err)
-	assert.NotNil(t, resp)
-	assert.NotEqual(t, resp.Id, "")
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rcreate)
+	assert.NotEqual(s.T(), rcreate.Id, "")
 
-	id := resp.Id
+	id := rcreate.Id
 
-	getResp, err := todoService.GetTodo(
+	rget, err := s.Todo.GetTodo(
 		context.Background(),
 		&api.GetTodoRequest{
 			Id: id,
 		},
 	)
-	assert.Nil(t, err)
-	assert.NotNil(t, getResp)
-	assert.NotNil(t, getResp.Item)
-	assert.Equal(t, getResp.Item, item)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rget)
+	assert.NotNil(s.T(), rget.Item)
+	assert.Equal(s.T(), rget.Item, item)
 }
 
-func TestDeleteTodo(t *testing.T) {
+func (s *TodoSuite) TestDeleteTodo() {
 	item := &api.Todo{
-		Title:       "delete_test",
-		Description: "this is a todo item for testing Delete",
+		Title:       "item_1",
+		Description: "item desc 1",
 	}
 
-	resp, err := todoService.CreateTodo(
+	rcreate, err := s.Todo.CreateTodo(
 		context.Background(),
 		&api.CreateTodoRequest{
 			Item: item,
 		},
 	)
-	assert.Nil(t, err)
-	assert.NotNil(t, resp)
-	assert.NotEqual(t, resp.Id, "")
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rcreate)
+	assert.NotEqual(s.T(), rcreate.Id, "")
 
-	id := resp.Id
+	id := rcreate.Id
 
-	delResp, err := todoService.DeleteTodo(
+	rdel, err := s.Todo.DeleteTodo(
 		context.Background(),
 		&api.DeleteTodoRequest{
 			Id: id,
 		},
 	)
-	assert.Nil(t, err)
-	assert.NotNil(t, delResp)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rdel)
 
 	// Getting the todo item should fail this time
-	getResp, err := todoService.GetTodo(
+	rget, err := s.Todo.GetTodo(
 		context.Background(),
 		&api.GetTodoRequest{
 			Id: id,
 		},
 	)
-	assert.Nil(t, getResp)
-	assert.NotNil(t, err)
-	assert.Contains(t, err.Error(), "Could not retrieve item from the database: pg: no rows in result set")
+	assert.Nil(s.T(), rget)
+	assert.NotNil(s.T(), err)
+	assert.Contains(s.T(), err.Error(), "Could not retrieve item from the database: pg: no rows in result set")
 }
 
-func TestUpdateTodo(t *testing.T) {
+func (s *TodoSuite) TestUpdateTodo() {
 	item := &api.Todo{
-		Title:       "update_test",
-		Description: "this is a todo item for testing Update",
+		Title:       "item_1",
+		Description: "item desc 1",
 	}
 
-	resp, err := todoService.CreateTodo(
+	rcreate, err := s.Todo.CreateTodo(
 		context.Background(),
 		&api.CreateTodoRequest{
 			Item: item,
 		},
 	)
-	assert.Nil(t, err)
-	assert.NotNil(t, resp)
-	assert.NotEqual(t, resp.Id, "")
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rcreate)
+	assert.NotEqual(s.T(), rcreate.Id, "")
 
-	id := resp.Id
+	id := rcreate.Id
 
-	upItem := &api.Todo{
+	newItem := &api.Todo{
 		Id:          id,
-		Title:       "updated_todo_item",
-		Description: "this is an updated todo",
+		Title:       "item 1 update",
+		Description: "updated desc",
 		Completed:   true,
 	}
 
-	upResp, err := todoService.UpdateTodo(
+	rupdate, err := s.Todo.UpdateTodo(
 		context.Background(),
 		&api.UpdateTodoRequest{
-			Item: upItem,
+			Item: newItem,
 		},
 	)
-	assert.Nil(t, err)
-	assert.NotNil(t, upResp)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rupdate)
 
 	// Getting the todo item should return the updated version
-	getResp, err := todoService.GetTodo(
+	rget, err := s.Todo.GetTodo(
 		context.Background(),
 		&api.GetTodoRequest{
 			Id: id,
 		},
 	)
-	assert.NotNil(t, getResp)
-	assert.Nil(t, err)
-	assert.Equal(t, getResp.Item.Id, upItem.Id)
-	assert.Equal(t, getResp.Item.Title, upItem.Title)
-	assert.Equal(t, getResp.Item.Description, upItem.Description)
-	assert.Equal(t, getResp.Item.Completed, upItem.Completed)
+	assert.NotNil(s.T(), rget)
+	assert.Nil(s.T(), err)
+	assert.Equal(s.T(), rget.Item.Id, newItem.Id)
+	assert.Equal(s.T(), rget.Item.Title, newItem.Title)
+	assert.Equal(s.T(), rget.Item.Description, newItem.Description)
+	assert.Equal(s.T(), rget.Item.Completed, newItem.Completed)
+}
+
+func (s *TodoSuite) TestUpdateTodos() {
+	items := []*api.Todo{
+		{
+			Title:       "item_1",
+			Description: "item desc 1",
+		},
+		{
+			Title:       "item_2",
+			Description: "item desc 2",
+		},
+	}
+
+	// Create the todo items
+	resp, err := s.Todo.CreateTodos(
+		context.Background(),
+		&api.CreateTodosRequest{
+			Items: items,
+		},
+	)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), resp)
+
+	// List the items and update their fields
+	rlist, err := s.Todo.ListTodo(
+		context.Background(),
+		&api.ListTodoRequest{},
+	)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rlist)
+	assert.NotNil(s.T(), rlist.Items)
+
+	for _, item := range rlist.Items {
+		item.Description = "updated desc"
+		item.Completed = true
+	}
+
+	rupdate, err := s.Todo.UpdateTodos(
+		context.Background(),
+		&api.UpdateTodosRequest{
+			Items: rlist.Items,
+		},
+	)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rupdate)
+
+	// List again and see if the entries have had their fields changed
+	rlist, err = s.Todo.ListTodo(
+		context.Background(),
+		&api.ListTodoRequest{},
+	)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rlist)
+	assert.NotNil(s.T(), rlist.Items)
+
+	for _, item := range rlist.Items {
+		assert.Equal(s.T(), item.Description, "updated desc")
+		assert.True(s.T(), item.Completed)
+	}
+}
+
+func (s *TodoSuite) TestListTodo() {
+	items := []*api.Todo{
+		{
+			Title:       "item_1",
+			Description: "item desc 1",
+			Completed:   true,
+		},
+		{
+			Title:       "item_2",
+			Description: "item desc 2",
+		},
+		{
+			Title:       "item_3",
+			Description: "item desc 3",
+		},
+		{
+			Title:       "item_4",
+			Description: "item desc 4",
+			Completed:   true,
+		},
+	}
+
+	// List with empty database
+	rlist, err := s.Todo.ListTodo(
+		context.Background(),
+		&api.ListTodoRequest{},
+	)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rlist)
+	assert.Nil(s.T(), rlist.Items)
+	assert.Equal(s.T(), len(rlist.Items), 0)
+
+	// Create the todo items
+	rcreate, err := s.Todo.CreateTodos(
+		context.Background(),
+		&api.CreateTodosRequest{
+			Items: items,
+		},
+	)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rcreate)
+
+	// List the items
+	rlist, err = s.Todo.ListTodo(
+		context.Background(),
+		&api.ListTodoRequest{},
+	)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rlist)
+	assert.NotNil(s.T(), rlist.Items)
+	assert.Equal(s.T(), len(rlist.Items), 4)
+
+	// Limit the result of List
+	rlist, err = s.Todo.ListTodo(
+		context.Background(),
+		&api.ListTodoRequest{
+			Limit: 2,
+		},
+	)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rlist)
+	assert.NotNil(s.T(), rlist.Items)
+	assert.Equal(s.T(), len(rlist.Items), 2)
+
+	// Only list non completed items
+	rlist, err = s.Todo.ListTodo(
+		context.Background(),
+		&api.ListTodoRequest{
+			NotCompleted: true,
+		},
+	)
+	assert.Nil(s.T(), err)
+	assert.NotNil(s.T(), rlist)
+	assert.NotNil(s.T(), rlist.Items)
+	assert.Equal(s.T(), len(rlist.Items), 2)
 }

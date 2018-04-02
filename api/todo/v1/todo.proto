@@ -29,6 +29,12 @@ service TodoService {
 		};
 	}
 
+	rpc ListTodo(ListTodoRequest) returns (ListTodoResponse) {
+		option (google.api.http) ={
+			get: "/v1/todo"
+		};
+	}
+
 	rpc DeleteTodo(DeleteTodoRequest) returns (DeleteTodoResponse) {
 		option (google.api.http) ={
 			delete: "/v1/todo/{id}"
@@ -87,6 +93,15 @@ message GetTodoRequest {
 
 message GetTodoResponse {
 	Todo item = 1;
+}
+
+message ListTodoRequest {
+	int32 limit = 1;
+	bool not_completed = 2;
+}
+
+message ListTodoResponse {
+	repeated Todo items = 1;
 }
 
 message DeleteTodoRequest {

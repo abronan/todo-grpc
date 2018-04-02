@@ -63,6 +63,12 @@ $ curl -X GET "http://localhost:8080/v1/todo/34d63bd4-56b3-4795-80d4-86e5db6fa0b
 {"item":{"id":"34d63bd4-56b3-4795-80d4-86e5db6fa0b5","title":"Test","description":"Test","created_at":"2018-03-30T20:13:25.291887Z"}}
 ```
 
+- List Todos (example with limit and non completed items in query parameters):
+
+```bash
+$ curl -X GET "http://localhost:8080/v1/todo?limit=10&not_completed=true"
+```
+
 - Update a Todo:
 
 ```bash
@@ -80,14 +86,15 @@ $ curl -X DELETE "http://localhost:8080/v1/todo/34d63bd4-56b3-4795-80d4-86e5db6f
 - Bulk Insert Todos:
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"items": [{"title":"Todo_1","description":"Todo_1"},{"title":"Todo_2","description":"Todo_2"}]}' "http://localhost:8080/v1/todo/bulk"
+$ curl -X POST -H "Content-Type: application/json" -d '{"items": [{"title":"Todo_1","description":"Todo_1"},{"title":"Todo_2","description":"Todo_2"}]}' "http://localhost:8080/v1/todo/bulk"
 {"ids":["e8924469-8847-4840-ae16-21be734173f4","0db11e34-4707-4a5d-92fe-f4952213d940"]}
 ```
 
 - Bulk Update Todos:
 
 ```bash
-curl -X PUT -H "Content-Type: application/json" -d '{"items": [{"id":"e94a6d0b-953b-4dad-aecb-318f183db4c7","title":"Todo_1","description":"Todo_1","completed":true},{"id":"d53daa2c-e6af-45ba-b192-3e1dc443b165","title":"Todo_2","description":"Todo_2","completed":true}]}' "http://localhost:8080/v1/todo/bulk"
+$ curl -X PUT -H "Content-Type: application/json" -d '{"items": [{"id":"e94a6d0b-953b-4dad-aecb-318f183db4c7","title":"Todo_1","description":"Todo_1","completed":true},{"id":"d53daa2c-e6af-45ba-b192-3e1dc443b165","title":"Todo_2","description":"Todo_2","completed":true}]}' "http://localhost:8080/v1/todo/bulk"
+{}
 ```
 
 ## Language/Libraries

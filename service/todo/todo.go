@@ -36,7 +36,7 @@ func (s Service) CreateTodos(ctx context.Context, req *todo.CreateTodosRequest) 
 	}
 	err := s.DB.Insert(&req.Items)
 	if err != nil {
-		return nil, grpc.Errorf(codes.Internal, "Could not insert item into the database: %s", err)
+		return nil, grpc.Errorf(codes.Internal, "Could not insert items into the database: %s", err)
 	}
 	return &todo.CreateTodosResponse{Ids: ids}, nil
 }
@@ -49,6 +49,23 @@ func (s Service) GetTodo(ctx context.Context, req *todo.GetTodoRequest) (*todo.G
 		return nil, grpc.Errorf(codes.NotFound, "Could not retrieve item from the database: %s", err)
 	}
 	return &todo.GetTodoResponse{Item: &item}, nil
+}
+
+// ListTodo retrieves a todo item from its ID
+func (s Service) ListTodo(ctx context.Context, req *todo.ListTodoRequest) (*todo.ListTodoResponse, error) {
+	var items []*todo.Todo
+	query := s.DB.Model(&items).Order("created_at ASC")
+	if req.Limit > 0 {
+		query.Limit(int(req.Limit))
+	}
+	if req.NotCompleted {
+		query.Where("completed = false")
+	}
+	err := query.Select()
+	if err != nil {
+		return nil, grpc.Errorf(codes.NotFound, "Could not list items from the database: %s", err)
+	}
+	return &todo.ListTodoResponse{Items: items}, nil
 }
 
 // DeleteTodo deletes a todo given an ID
@@ -81,10 +98,10 @@ func (s Service) UpdateTodos(ctx context.Context, req *todo.UpdateTodosRequest) 
 	}
 	res, err := s.DB.Model(&req.Items).Column("title", "description", "completed", "updated_at").Update()
 	if res.RowsAffected() == 0 {
-		return nil, grpc.Errorf(codes.NotFound, "Could not update item: not found")
+		return nil, grpc.Errorf(codes.NotFound, "Could not update items: not found")
 	}
 	if err != nil {
-		return nil, grpc.Errorf(codes.Internal, "Could not update item from the database: %s", err)
+		return nil, grpc.Errorf(codes.Internal, "Could not update items from the database: %s", err)
 	}
 	return &todo.UpdateTodosResponse{}, nil
 }
