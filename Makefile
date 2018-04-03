@@ -27,3 +27,9 @@ build:
 
 lint:
 	@gometalinter.v2
+
+test:
+	@docker run -d --name todo-test -p 5432:5432 -e POSTGRES_DB="todo" postgres
+	@sleep 3 # Wait for postgres startup (╯°□°）╯︵ ┻━┻
+	@go test $(PACKAGES)
+	@docker rm -f todo-test

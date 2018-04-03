@@ -18,9 +18,9 @@ type TodoSuite struct {
 
 func TestTodoTestSuite(t *testing.T) {
 	db := pg.Connect(&pg.Options{
-		User:     "abronan",
+		User:     "postgres",
 		Database: "todo",
-		Addr:     "0.0.0.0:5432",
+		Addr:     "localhost:5432",
 	})
 	suite.Run(t, &TodoSuite{
 		Todo: &Service{DB: db},

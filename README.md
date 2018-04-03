@@ -8,6 +8,7 @@ Todo app with gRPC/REST with the goal of using the least amount of source code w
 - **git**
 - **grpc** (libprotoc >= 3.5.0)
 - **gnu-make**
+- **docker**
 
 ## Setup
 
@@ -18,6 +19,7 @@ setup                          install dependencies
 generate                       generate protobuf files
 lint                           run gometalinter
 build                          build the go packages
+test                           run tests (requires docker or a local postgresql instance)
 ```
 
 ## Usage
