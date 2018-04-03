@@ -27,6 +27,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = path.Base(os.Args[0])
 	app.Usage = "Todo app"
+	app.Version = "0.0.1"
 	app.Flags = commonFlags
 	app.Action = start
 
