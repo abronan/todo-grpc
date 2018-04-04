@@ -3,6 +3,7 @@ package todo
 import (
 	"context"
 	"testing"
+	"time"
 
 	api "github.com/abronan/todo-grpc/api/todo/v1"
 	"github.com/go-pg/pg"
@@ -21,6 +22,9 @@ func TestTodoTestSuite(t *testing.T) {
 		User:     "postgres",
 		Database: "todo",
 		Addr:     "localhost:5432",
+		RetryStatementTimeout: true,
+		MaxRetries:            4,
+		MinRetryBackoff:       250 * time.Millisecond,
 	})
 	suite.Run(t, &TodoSuite{
 		Todo: &Service{DB: db},
