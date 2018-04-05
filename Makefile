@@ -21,6 +21,7 @@ generate:
 	@protobuild $(PACKAGES)
 	@$(foreach file,$(PB_FILES),protoc-go-inject-tag -input=$(file);)
 	@$(foreach file,$(PROTO_FILES),protoc $(PROTOC_FLAGS) --grpc-gateway_out=logtostderr=true:. $(file);)
+	@$(foreach file,$(PROTO_FILES),protoc $(PROTOC_FLAGS) --swagger_out=logtostderr=true:. $(file);)
 
 build:
 	@go build
