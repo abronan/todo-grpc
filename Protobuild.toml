@@ -1,4 +1,5 @@
 version = "unstable"
+generator = "gogotodo"
 plugins = ["grpc", "protoc-gen-grpc-gateway", "protoc-gen-swagger"]
 
 # Control protoc include paths. Below are usually some good defaults, but feel
