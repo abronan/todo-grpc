@@ -15,11 +15,16 @@ Todo app with gRPC/REST with the goal of using the least amount of source code w
 ### Makefile
 
 ```text
-setup                          install dependencies
-generate                       generate protobuf files
-lint                           run gometalinter
+binaries                       build binaries
 build                          build the go packages
-test                           run tests (requires docker or a local postgresql instance)
+clean                          clean up binaries
+help                           this help
+install                        install binaries
+lint                           run go lint
+protos                         generate protobuf
+setup                          install dependencies
+test                           run test suite (requires docker or a local postgresql instance)
+uninstall                      uninstall binaries
 ```
 
 ## Usage
@@ -32,21 +37,26 @@ USAGE:
    todo-grpc [global options] command [command options] [arguments...]
 
 VERSION:
-   0.0.0
+   0.0.1
 
 COMMANDS:
      help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --bind-http value    bind address for HTTP (default: "0.0.0.0:8080") [$BIND_HTTP]
-   --bind-grpc value    bind address for gRPC (default: "0.0.0.0:2338") [$BIND_GRPC]
-   --db-name value      database name (default: "todo") [$DB_NAME]
-   --db-user value      database username (default: "postgres") [$DB_USER]
-   --db-password value  database password [$DB_PASSWORD]
-   --db-host value      postgres host (default: "127.0.0.1") [$DB_HOST]
-   --db-port value      database port (default: 5432) [$DB_PORT]
-   --help, -h           show help
-   --version, -v        print the version
+   --bind-http value             bind address for HTTP (default: ":8080") [$BIND_HTTP]
+   --bind-grpc value             bind address for gRPC (default: ":2338") [$BIND_GRPC]
+   --bind-prometheus-http value  bind prometheus address for HTTP (default: ":8081") [$BIND_PROMETHEUS_HTTP]
+   --db-name value               database name (default: "todo") [$DB_NAME]
+   --db-user value               database username (default: "postgres") [$DB_USER]
+   --db-password value           database password [$DB_PASSWORD]
+   --db-host value               postgres host (default: "127.0.0.1") [$DB_HOST]
+   --db-port value               database port (default: 5432) [$DB_PORT]
+   --jaeger-host value           Jaeger hostname (default: "127.0.0.1") [$JAEGER_HOST]
+   --jaeger-port value           Jaeger port (default: 5775) [$JAEGER_PORT]
+   --jaeger-sampler value        Jaeger sampler (default: 0.05) [$JAEGER_SAMPLER]
+   --jaeger-tags value           Jaeger tags (default: "todo") [$JAEGER_TAGS]
+   --help, -h                    show help
+   --version, -v                 print the version
 ```
 
 ### Rest API

@@ -74,6 +74,6 @@ var commonFlags = []cli.Flag{
 		Name:   "jaeger-tags",
 		Usage:  "Jaeger tags",
 		EnvVar: "JAEGER_TAGS",
-		Value:  "directory",
+		Value:  "todo",
 	},
 }

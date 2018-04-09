@@ -32,13 +32,13 @@ protos: bin/protoc-gen-gogotodo ## generate protobuf
 	@$(foreach file,$(PROTO_FILES),protoc $(PROTOC_FLAGS) --grpc-gateway_out=logtostderr=true:. $(file);)
 	@$(foreach file,$(PROTO_FILES),protoc $(PROTOC_FLAGS) --swagger_out=logtostderr=true:. $(file);)
 
-build:
+build: ## build the go packages
 	@go build $(PACKAGES)
 
 lint: ## run go lint
 	@gometalinter.v2
 
-test:
+test: ## run test suite (requires docker or a local postgresql instance)
 	@docker run -d --name todo-test -p 5432:5432 -e POSTGRES_DB="todo" postgres
 	@go test $(PACKAGES)
 	@docker rm -f todo-test
