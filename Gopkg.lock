@@ -2,10 +2,22 @@
 
 
 [[projects]]
+  name = "github.com/apache/thrift"
+  packages = ["lib/go/thrift"]
+  revision = "b2a4d4ae21c789b689dd162deb819665567f481c"
+  version = "0.10.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/beorn7/perks"
   packages = ["quantile"]
   revision = "3a771d992973f24aa725d07868b467d1ddfceafb"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/codahale/hdrhistogram"
+  packages = ["."]
+  revision = "3a0bb77429bd3a61596f5e8a3172445844342120"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"
@@ -191,6 +203,36 @@
   version = "v1.2.1"
 
 [[projects]]
+  name = "github.com/uber/jaeger-client-go"
+  packages = [
+    ".",
+    "config",
+    "internal/baggage",
+    "internal/baggage/remote",
+    "internal/spanlog",
+    "internal/throttler",
+    "log",
+    "rpcmetrics",
+    "thrift-gen/agent",
+    "thrift-gen/baggage",
+    "thrift-gen/jaeger",
+    "thrift-gen/sampling",
+    "thrift-gen/zipkincore",
+    "utils"
+  ]
+  revision = "c107110d057826281414cb964f167bce5be17588"
+  version = "v2.12.0"
+
+[[projects]]
+  name = "github.com/uber/jaeger-lib"
+  packages = [
+    "metrics",
+    "metrics/prometheus"
+  ]
+  revision = "4267858c0679cd4e47cefed8d7f70fd386cfb567"
+  version = "v1.4.0"
+
+[[projects]]
   name = "github.com/urfave/cli"
   packages = ["."]
   revision = "cfb38830724cc34fedffe9a2a29fb54fa9169cd1"
@@ -288,6 +330,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "83860549ba39938a845d4e591acfe370f69d130889cf658b325951b760c5e9ac"
+  inputs-digest = "f2542e61ea91c4664329f92657657c2f83de95fd7b3d98b2fba0a3d008bf6e33"
   solver-name = "gps-cdcl"
   solver-version = 1

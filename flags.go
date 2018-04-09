@@ -5,21 +5,24 @@ import (
 )
 
 var commonFlags = []cli.Flag{
-	// Server
 	cli.StringFlag{
 		Name:   "bind-http",
 		Usage:  "bind address for HTTP",
 		EnvVar: "BIND_HTTP",
-		Value:  "localhost:8080",
+		Value:  ":8080",
 	},
 	cli.StringFlag{
 		Name:   "bind-grpc",
 		Usage:  "bind address for gRPC",
 		EnvVar: "BIND_GRPC",
-		Value:  "localhost:2338",
+		Value:  ":2338",
 	},
-
-	// PostgresQL
+	cli.StringFlag{
+		Name:   "bind-prometheus-http",
+		Usage:  "bind prometheus address for HTTP",
+		EnvVar: "BIND_PROMETHEUS_HTTP",
+		Value:  ":8081",
+	},
 	cli.StringFlag{
 		Name:   "db-name",
 		Usage:  "database name",
@@ -48,5 +51,29 @@ var commonFlags = []cli.Flag{
 		Usage:  "database port",
 		EnvVar: "DB_PORT",
 		Value:  5432,
+	},
+	cli.StringFlag{
+		Name:   "jaeger-host",
+		Usage:  "Jaeger hostname",
+		EnvVar: "JAEGER_HOST",
+		Value:  "127.0.0.1",
+	},
+	cli.IntFlag{
+		Name:   "jaeger-port",
+		Usage:  "Jaeger port",
+		EnvVar: "JAEGER_PORT",
+		Value:  5775,
+	},
+	cli.Float64Flag{
+		Name:   "jaeger-sampler",
+		Usage:  "Jaeger sampler",
+		EnvVar: "JAEGER_SAMPLER",
+		Value:  0.05,
+	},
+	cli.StringFlag{
+		Name:   "jaeger-tags",
+		Usage:  "Jaeger tags",
+		EnvVar: "JAEGER_TAGS",
+		Value:  "directory",
 	},
 }
