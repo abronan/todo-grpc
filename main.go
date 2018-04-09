@@ -31,11 +31,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-var (
-	metricsFactory metrics.Factory
-	tracer         opentracing.Tracer
-)
-
 func main() {
 	app := cli.NewApp()
 	app.Name = path.Base(os.Args[0])
@@ -52,7 +47,7 @@ func main() {
 func start(c *cli.Context) {
 	lis, err := net.Listen("tcp", c.String("bind-grpc"))
 	if err != nil {
-		log.Fatalf("failed to listen: %v", c.String("bind-grpc"))
+		log.Fatalf("Failed to listen: %v", c.String("bind-grpc"))
 	}
 
 	// Logrus
@@ -61,7 +56,7 @@ func start(c *cli.Context) {
 	log.SetLevel(log.InfoLevel)
 
 	// Prometheus monitoring
-	metricsFactory = prometheus_metrics.New()
+	metricsFactory := prometheus_metrics.New()
 
 	// Jaeger tracing
 	tracer, closer, err := newTracing(
@@ -118,11 +113,11 @@ func start(c *cli.Context) {
 
 	conn, err := grpc.Dial(c.String("bind-grpc"), grpc.WithInsecure())
 	if err != nil {
-		panic("couldn't contact grpc server")
+		panic("Couldn't contact grpc server")
 	}
 	err = api.RegisterTodoServiceHandler(context.Background(), mux, conn)
 	if err != nil {
-		panic("cannot serve http api")
+		panic("Cannot serve http api")
 	}
 	http.ListenAndServe(c.String("bind-http"), mux)
 }
@@ -142,10 +137,10 @@ func newTracing(service, jaegerHost string, metrics metrics.Factory, logger *log
 	tracer, closer, err = cfg.New(
 		service,
 		config.Logger(jaegerLoggerAdapter{logger}),
-		config.Observer(rpcmetrics.NewObserver(metricsFactory, rpcmetrics.DefaultNameNormalizer)),
+		config.Observer(rpcmetrics.NewObserver(metrics, rpcmetrics.DefaultNameNormalizer)),
 	)
 	if err != nil {
-		logger.Fatalf("cannot initialize Jaeger Tracer %s", err)
+		logger.Fatalf("Cannot initialize Jaeger Tracer %s", err)
 	}
 	return
 }
