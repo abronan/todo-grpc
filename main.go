@@ -20,6 +20,7 @@ import (
 	"github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	"github.com/grpc-ecosystem/go-grpc-prometheus"
 	grpc_runtime "github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/uber/jaeger-client-go/config"
 	"github.com/uber/jaeger-client-go/rpcmetrics"
 	prometheus_metrics "github.com/uber/jaeger-lib/metrics/prometheus"
@@ -122,6 +123,12 @@ func start(c *cli.Context) {
 	api.RegisterTodoServiceServer(server, &todo.Service{DB: db})
 	grpc_prometheus.Register(server)
 	mux := grpc_runtime.NewServeMux()
+
+	go func() {
+		mux := http.NewServeMux()
+		mux.Handle("/metrics", promhttp.Handler())
+		http.ListenAndServe(c.String("bind-prometheus-http"), mux)
+	}()
 
 	log.Println("Starting Todo service..")
 	go server.Serve(lis)
