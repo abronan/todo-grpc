@@ -122,7 +122,6 @@ func start(c *cli.Context) {
 	// Register Todo service, prometheus and HTTP service handler
 	api.RegisterTodoServiceServer(server, &todo.Service{DB: db})
 	grpc_prometheus.Register(server)
-	mux := grpc_runtime.NewServeMux()
 
 	go func() {
 		mux := http.NewServeMux()
@@ -137,6 +136,8 @@ func start(c *cli.Context) {
 	if err != nil {
 		panic("Couldn't contact grpc server")
 	}
+
+	mux := grpc_runtime.NewServeMux()
 	err = api.RegisterTodoServiceHandler(context.Background(), mux, conn)
 	if err != nil {
 		panic("Cannot serve http api")
