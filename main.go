@@ -3,11 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
-	"io"
 	"net"
 	"net/http"
 	"os"
 	"path"
+	"runtime"
 	"time"
 
 	api "github.com/abronan/todo-grpc/api/todo/v1"
@@ -19,17 +19,25 @@ import (
 	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	"github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	"github.com/grpc-ecosystem/go-grpc-prometheus"
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	opentracing "github.com/opentracing/opentracing-go"
+	grpc_runtime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/uber/jaeger-client-go/config"
 	"github.com/uber/jaeger-client-go/rpcmetrics"
-	"github.com/uber/jaeger-lib/metrics"
 	prometheus_metrics "github.com/uber/jaeger-lib/metrics/prometheus"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
+
+// Panic handler prints the stack trace when recovering from a panic.
+var panicHandler = grpc_recovery.RecoveryHandlerFunc(func(p interface{}) error {
+	buf := make([]byte, 1<<16)
+	runtime.Stack(buf, true)
+	log.Errorf("panic recovered: %+v", string(buf))
+	return status.Errorf(codes.Internal, "%s", p)
+})
 
 func main() {
 	app := cli.NewApp()
@@ -51,23 +59,30 @@ func start(c *cli.Context) {
 	}
 
 	// Logrus
-	logrusEntry := log.NewEntry(log.New())
-	grpc_logrus.ReplaceGrpcLogger(logrusEntry)
+	logger := log.NewEntry(log.New())
+	grpc_logrus.ReplaceGrpcLogger(logger)
 	log.SetLevel(log.InfoLevel)
 
 	// Prometheus monitoring
-	metricsFactory := prometheus_metrics.New()
+	metrics := prometheus_metrics.New()
 
 	// Jaeger tracing
-	tracer, closer, err := newTracing(
+	cfg := config.Configuration{
+		Sampler: &config.SamplerConfig{
+			Type:  "const",
+			Param: c.Float64("jaeger-sampler"),
+		},
+		Reporter: &config.ReporterConfig{
+			LocalAgentHostPort: c.String("jaeger-host") + ":" + c.String("jaeger-port"),
+		},
+	}
+	tracer, closer, err := cfg.New(
 		"todo",
-		c.String("jaeger-host")+":"+c.String("jaeger-port"),
-		metricsFactory.Namespace("todo", nil),
-		logrusEntry,
-		c.Float64("jaeger-sampler"),
+		config.Logger(jaegerLoggerAdapter{logger}),
+		config.Observer(rpcmetrics.NewObserver(metrics.Namespace("todo", nil), rpcmetrics.DefaultNameNormalizer)),
 	)
 	if err != nil {
-		panic(err.Error())
+		logger.Fatalf("Cannot initialize Jaeger Tracer %s", err)
 	}
 	defer closer.Close()
 
@@ -77,15 +92,15 @@ func start(c *cli.Context) {
 			grpc_ctxtags.StreamServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
 			grpc_opentracing.StreamServerInterceptor(grpc_opentracing.WithTracer(tracer)),
 			grpc_prometheus.StreamServerInterceptor,
-			grpc_logrus.StreamServerInterceptor(logrusEntry),
-			grpc_recovery.StreamServerInterceptor(),
+			grpc_logrus.StreamServerInterceptor(logger),
+			grpc_recovery.StreamServerInterceptor(grpc_recovery.WithRecoveryHandler(panicHandler)),
 		)),
 		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
 			grpc_ctxtags.UnaryServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
 			grpc_opentracing.UnaryServerInterceptor(grpc_opentracing.WithTracer(tracer)),
 			grpc_prometheus.UnaryServerInterceptor,
-			grpc_logrus.UnaryServerInterceptor(logrusEntry),
-			grpc_recovery.UnaryServerInterceptor(),
+			grpc_logrus.UnaryServerInterceptor(logger),
+			grpc_recovery.UnaryServerInterceptor(grpc_recovery.WithRecoveryHandler(panicHandler)),
 		)),
 	)
 
@@ -106,7 +121,7 @@ func start(c *cli.Context) {
 	// Register Todo service, prometheus and HTTP service handler
 	api.RegisterTodoServiceServer(server, &todo.Service{DB: db})
 	grpc_prometheus.Register(server)
-	mux := runtime.NewServeMux()
+	mux := grpc_runtime.NewServeMux()
 
 	log.Println("Starting Todo service..")
 	go server.Serve(lis)
@@ -120,29 +135,6 @@ func start(c *cli.Context) {
 		panic("Cannot serve http api")
 	}
 	http.ListenAndServe(c.String("bind-http"), mux)
-}
-
-func newTracing(service, jaegerHost string, metrics metrics.Factory, logger *log.Entry, sampler float64) (tracer opentracing.Tracer, closer io.Closer, err error) {
-	cfg := config.Configuration{
-		Sampler: &config.SamplerConfig{
-			Type:  "const",
-			Param: sampler,
-		},
-		Reporter: &config.ReporterConfig{
-			LogSpans:            false,
-			BufferFlushInterval: 1 * time.Second,
-			LocalAgentHostPort:  jaegerHost,
-		},
-	}
-	tracer, closer, err = cfg.New(
-		service,
-		config.Logger(jaegerLoggerAdapter{logger}),
-		config.Observer(rpcmetrics.NewObserver(metrics, rpcmetrics.DefaultNameNormalizer)),
-	)
-	if err != nil {
-		logger.Fatalf("Cannot initialize Jaeger Tracer %s", err)
-	}
-	return
 }
 
 type jaegerLoggerAdapter struct {
